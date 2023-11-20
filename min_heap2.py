@@ -1,5 +1,6 @@
 import math
 
+
 class MinHeap:
     length = 0
     data = []
