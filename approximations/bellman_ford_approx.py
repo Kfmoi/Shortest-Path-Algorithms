@@ -1,4 +1,4 @@
-from final_project_part1 import DirectedWeightedGraph
+from given_code.final_project_part1 import DirectedWeightedGraph
 
 
 def bellman_ford_approx(G: DirectedWeightedGraph, source: int, k: int) -> dict[int, float]:

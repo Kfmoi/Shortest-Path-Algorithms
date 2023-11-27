@@ -1,5 +1,5 @@
-from final_project_part1 import DirectedWeightedGraph
-from min_heap2 import MinHeap, Element
+from given_code.final_project_part1 import DirectedWeightedGraph
+from given_code.min_heap2 import MinHeap, Element
 
 
 def dijkstra_approx(G: DirectedWeightedGraph, source: int, k: int) -> dict[int, float]:
