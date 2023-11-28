@@ -1,6 +1,6 @@
 import random
 
-import min_heap2 as min_heap
+import given_code.min_heap2 as min_heap
 
 
 class DirectedWeightedGraph:
