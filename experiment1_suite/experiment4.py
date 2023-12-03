@@ -53,12 +53,12 @@ def experiment4():
         y_vals=[dijk_results, bell_results],
         legend_labels=["Dijkstra", "Bellman-Ford"],
         title="Accuracy of Dijkstra and Bellman-Ford Approximations with Varying Number of Relaxations ",
-        description=f"{(max_value + 1 - min_value) // step} increments up to # of relaxations = {max_value} from # of relaxations = {min_value} with {reps} "
+        description=f"{(max_value  - min_value) // step} increments up to # of relaxations = {max_value - 1} from # of relaxations = {min_value} with {reps} "
                         f"repetitions per increment, number of nodes set to {nodes}, source node index = {0}, and max edge weights upto {upper}",
         x_label="Number of Relaxations",
         y_label="Accuracy of Approximation(%)",
         scale=1,
-        show_ticks=False
+        show_ticks=True
     )
 if __name__ == '__main__':
     experiment4()
