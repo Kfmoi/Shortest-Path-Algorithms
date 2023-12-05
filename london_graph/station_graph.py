@@ -28,7 +28,8 @@ def load_connections(file_path):
             connections_data.append({
                 'station1_id': int(row['station1']),
                 'station2_id': int(row['station2']),
-                'line': int(row['line'])
+                'line': int(row['line']),
+                'time': int(row['time'])
             })
     return connections_data
 
@@ -56,19 +57,7 @@ def create_graph(stations_data, connections_data):
         node1 = connection['station1_id']
         node2 = connection['station2_id']
 
-        lat1, lon1 = None, None
-        for station in stations_data:
-            if station['id'] == node1:
-                lat1, lon1 = station['latitude'], station['longitude']
-                break
-
-        lat2, lon2 = None, None
-        for station in stations_data:
-            if station['id'] == node2:
-                lat2, lon2 = station['latitude'], station['longitude']
-                break
-
-        weight = distance(lat1, lon1, lat2, lon2)
+        weight = connection['time']
 
         G.add_edge(node1, node2, weight)
         G.add_edge(node2, node1, weight)
@@ -83,7 +72,7 @@ def create_london_subway_graph():
     return g
 
 # Sample Tests for station 11 and 163
-# g = london_subway_network()
+# g = create_london_subway_graph()
 # c = load_connections('../Data/london_connections.csv')
 # s = load_stations('../Data/london_stations.csv')
 # print(g.w(s[9]['id'],s[142]['id'] ))
