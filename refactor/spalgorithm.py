@@ -62,7 +62,7 @@ class A_Star(SPAlgorithm):
         dist = __a_star_alg(graph,source,dest, graph.get_heuristic())
         return dist[1]
 
-    def __a_star_alg(self, G: Graph, s: int, d: int, h: dict[int, float]) -> float:
+    def __a_star_alg(self, G: Graph, s: int, d: int, h: dict[int, float]) -> tuple[dict[int, int], float]:
         g_distances = {}
         predecessors = {}
         f_scores = {}
