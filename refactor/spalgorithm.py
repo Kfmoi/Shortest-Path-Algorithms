@@ -60,9 +60,9 @@ class Bellman_Ford(SPAlgorithm):
 class A_Star(SPAlgorithm):
     def calc_sp(self, graph: Graph, source: int, dest: int) -> float:
         dist = __a_star_alg(graph,source,dest, graph.get_heuristic())
-        return dist
+        return dist[1]
 
-    def __a_star_alg(self, G: Graph, s: int, d: int, h: dict[int, float]) -> tuple[dict[int, int], int]:
+    def __a_star_alg(self, G: Graph, s: int, d: int, h: dict[int, float]) -> float:
         g_distances = {}
         predecessors = {}
         f_scores = {}
