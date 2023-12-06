@@ -59,9 +59,10 @@ class Bellman_Ford(SPAlgorithm):
 
 class A_Star(SPAlgorithm):
     def calc_sp(self, graph: Graph, source: int, dest: int) -> float:
-        dist = 
+        dist = __a_star_alg(graph,source,dest, graph.get_heuristic())
+        return dist
 
-    def __a_star(graph: Graph, source: int, dest: int, heuristic: dict[int, float]) -> tuple[dict[int, int], int]:
+    def __a_star_alg(G: Graph, s: int, d: int, h: dict[int, float]) -> tuple[dict[int, int], int]:
         g_distances = {}
         predecessors = {}
         f_scores = {}
@@ -69,27 +70,27 @@ class A_Star(SPAlgorithm):
         # previously from the heap but have gotten better scores from the heuristics are reconsidered
         in_pq: dict[int, bool] = {}
         pq = MinHeap([])
-        for node in graph.adj.keys():
+        for node in G.adj.keys():
             g_distances[node] = float('inf')
             f_scores[node] = float('inf')
             pq.insert(Element(node, f_scores[node]))
             in_pq[node] = True
 
-        g_distances[source] = 0
-        f_scores[source] = g_distances[source] + heuristic[source]
-        pq.decrease_key(source, f_scores[source])
+        g_distances[s] = 0
+        f_scores[s] = g_distances[s] + h[s]
+        pq.decrease_key(s, f_scores[s])
         while not pq.is_empty():
             cur_elem = pq.extract_min()
             cur_node, cur_score = cur_elem.value, cur_elem.key
             in_pq[cur_node] = False
-            if cur_node == dest:
+            if cur_node == d:
                 break
-            for nbr in graph.adj[cur_node]:
-                new_dist = g_distances[cur_node] + graph.w(cur_node, nbr)
+            for nbr in G.adj[cur_node]:
+                new_dist = g_distances[cur_node] + G.w(cur_node, nbr)
                 if new_dist < g_distances[nbr]:
                     predecessors[nbr] = cur_node
                     g_distances[nbr] = new_dist
-                    f_scores[nbr] = new_dist + heuristic[nbr]
+                    f_scores[nbr] = new_dist + h[nbr]
                     # If the neighbour is in the pq currently then decrease the key
                     # Otherwise re-insert it (this is for the edge case that the heuristic might overshoot but
                     # isn't incorrect)
@@ -98,5 +99,4 @@ class A_Star(SPAlgorithm):
                     else:
                         pq.insert(Element(nbr, f_scores[nbr]))
 
-        return predecessors, g_distances[dest]
-
+        return predecessors, g_distances[d]
