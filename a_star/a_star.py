@@ -8,13 +8,13 @@ def a_star(G: DirectedWeightedGraph, s: int, d: int, h: dict[int, float]) -> tup
     f_scores = {}
     # Keep track of all the nodes in the priority queue. This is to make sure that nodes that were popped
     # previously from the heap but have gotten better scores from the heuristics are reconsidered
-    in_pq: dict[int, bool] = {}
+    in_pq = set()
     pq = MinHeap([])
     for node in G.adj.keys():
         g_distances[node] = float('inf')
         f_scores[node] = float('inf')
         pq.insert(Element(node, f_scores[node]))
-        in_pq[node] = True
+        in_pq.add(node)
 
     g_distances[s] = 0
     f_scores[s] = g_distances[s] + h[s]
@@ -22,7 +22,7 @@ def a_star(G: DirectedWeightedGraph, s: int, d: int, h: dict[int, float]) -> tup
     while not pq.is_empty():
         cur_elem = pq.extract_min()
         cur_node, cur_score = cur_elem.value, cur_elem.key
-        in_pq[cur_node] = False
+        in_pq.remove(cur_node)
         if cur_node == d:
             break
         for nbr in G.adj[cur_node]:
@@ -34,7 +34,7 @@ def a_star(G: DirectedWeightedGraph, s: int, d: int, h: dict[int, float]) -> tup
                 # If the neighbour is in the pq currently then decrease the key
                 # Otherwise re-insert it (this is for the edge case that the heuristic might overshoot but
                 # isn't incorrect)
-                if in_pq[nbr]:
+                if nbr in in_pq:
                     pq.decrease_key(nbr, f_scores[nbr])
                 else:
                     pq.insert(Element(nbr, f_scores[nbr]))

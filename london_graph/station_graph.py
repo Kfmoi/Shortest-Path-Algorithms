@@ -35,23 +35,22 @@ def load_connections(file_path):
 
 
 def load_stations(file_path):
-    stations_data = []
+    stations_data = {}
     with open(file_path, 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            stations_data.append({
-                'id': int(row['id']),
+            stations_data[int(row['id'])] = {
                 'latitude': float(row['latitude']),
                 'longitude': float(row['longitude'])
-            })
-    return (stations_data)
+            }
+    return stations_data
 
 
-def create_graph(stations_data, connections_data):
+def create_graph(stations_data: dict[int, dict[str, float]], connections_data):
     G = DirectedWeightedGraph()
 
     for station in stations_data:
-        G.add_node(station['id'])
+        G.add_node(station)
 
     for connection in connections_data:
         node1 = connection['station1_id']
@@ -69,7 +68,7 @@ def create_london_subway_graph():
     c = load_connections('../Data/london_connections.csv')
     s = load_stations('../Data/london_stations.csv')
     g = create_graph(s, c)
-    return g
+    return g, s
 
 # Sample Tests for station 11 and 163
 # g = create_london_subway_graph()
